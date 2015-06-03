@@ -1,0 +1,17 @@
+---
+- name: Get current localtime
+  shell: readlink /etc/localtime | cut -c21-
+  register: current_localtime
+  changed_when: current_localtime.stdout != "{{ timezone }}"
+
+- name: Remove /etc/localtime
+  file: path=/etc/localtime state=absent
+  when: current_localtime.stdout != "{{ timezone }}"
+
+- name: Symink /etc/localtime to timezone
+  file: src=/usr/share/zoneinfo/{{ timezone }} dest=/etc/localtime state=link
+  when: current_localtime.stdout != "{{ timezone }}"
+
+- name: Configure timezone
+  copy: content={{ timezone }} dest=/etc/timezone owner=root group=root mode=600 backup=yes
+  notify: Update TZdata

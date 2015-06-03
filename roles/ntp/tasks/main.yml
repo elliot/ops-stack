@@ -1,0 +1,9 @@
+---
+- name: Install NTP 
+  apt: name=ntp state=latest update_cache=yes
+
+- name: Configure NTP
+  copy: src=ntp.conf dest=/etc/ntp.conf mode=644 owner=root group=root
+
+- name: Start NTP service
+  service: name=ntp state=started enabled=yes
