@@ -1,0 +1,6 @@
+---
+- name: Install Supervisord
+  apt: name=supervisor state=present update_cache=yes cache_valid_time=3600
+
+- name: Start Supervisord 
+  service: name=supervisor state=started enabled=yes 

@@ -1,0 +1,16 @@
+---
+- name: Common configuration
+  hosts: all
+  roles: 
+    # - { role: common, tags: [common] }
+
+- name: Dev
+  sudo: yes
+  hosts: noc
+  roles:
+    - { role: java,          tags: [java] }
+    - { role: supervisord,   tags: [supervisord] }
+    - { role: elasticsearch, tags: [elasticsearch] }
+    - { role: logstash,      tags: [logstash] }
+    - { role: kibana,        tags: [kibana] }
+    - { role: grafana,       tags: [grafana] }

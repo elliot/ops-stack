@@ -1,0 +1,31 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure('2') do |config|
+
+  # vSphere Config
+  config.vm.provider :vsphere do |vsphere|
+    vsphere.host                  = 'xxxxxx'
+    vsphere.data_center_name      = 'xxxxxx'
+    vsphere.data_store_name       = 'xxxxxx'
+    vsphere.compute_resource_name = 'xxxxxx'
+    vsphere.template_name         = 'xxxxxx'
+    vsphere.user                  = 'xxxxxx'
+    vsphere.password              = 'xxxxxx'
+    vsphere.insecure              = 'true'
+  end
+
+  # NOC Server
+  config.vm.define 'noc' do |host|
+    host.vm.hostname = "noc"
+    host.vm.network :private_network, ip: "192.168.200.100"
+  end
+
+  # Ansible Provisioning
+  config.vm.provision :ansible do |ansible|
+    ansible.playbook   = "site.yml"
+    ansible.extra_vars = { 
+      ansible_ssh_user: 'deploy' 
+    }
+  end
+end

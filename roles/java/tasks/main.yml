@@ -1,0 +1,10 @@
+---
+- name: Add WebUpd8 Team repository
+  apt_repository: repo="ppa:webupd8team/java" state=present update_cache=yes
+
+- name: Automatically select the Oracle License
+  shell: echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
+  changed_when: no
+
+- name: Ensure Java is installed.
+  apt: "name={{ java_package }} state=installed force=yes update_cache=yes"

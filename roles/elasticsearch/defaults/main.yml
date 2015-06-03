@@ -1,0 +1,18 @@
+---
+elasticsearch:
+  version: 1.4
+
+elasticsearch_curator:
+  crons:
+    - {
+      name: "Delete indices older than 30 days (daily).",
+      job: "/usr/local/bin/curator delete indices --older-than 30 --time-unit days --timestring '%Y.%m.%d'",
+      minute: 0,
+      hour: 1
+    }
+    - {
+      name: "Close indices older than 14 days (daily).",
+      job: "/usr/local/bin/curator close indices --older-than 14 --time-unit days --timestring '%Y.%m.%d'",
+      minute: 30,
+      hour: 1
+    }
